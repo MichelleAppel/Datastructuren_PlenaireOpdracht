@@ -8,47 +8,39 @@ public class Main {
     // in de (grote) woordenlijst voorkomen, dit geeft namelijk aan hoeveel woorden
     // correct waren geschreven.
 
-
-    // opzet
-    /*
-    int wordsCorrectlySpelled = 0
-    int i = 0;
-    while((currentLine = br.readLine()) != null && i < 10) {
-        for(int j = 0; j < wordDatabase.length; j++) {
-            if() {
-
+            /*
+            // opzet (NOG NIET GETEST)
+            boolean wordFound = false;
+            int wordsCorrectlySpelled = 0;
+            int i = 0;
+            while((currentLine = br.readLine()) != null && i < 10) {
+                int j = 0;
+                while(j < wordDatabase.length && !wordFound) {
+                    wordFound = false;
+                    if(currentLine.equals(wordDatabase[j])) {
+                        wordsCorrectlySpelled += 1;
+                        wordFound = true;
+                        System.out.println("The word " + currentLine + " is correct.");
+                        System.out.println("The current score is " +
+                                wordsCorrectlySpelled + " correctly spelled words.");
+                    }
+                    j++;
+                }
+                i++;
             }
+            System.out.println("From all words in the sample file, " +
+                wordsCorrectlySpelled + " words were spelled correctly.");
+            */
 
-        }
-
-        i++;
-    }
-        WORD = lineAmount[i];
-        for(LINE IN WORDLIST)
-            if(WOORD.equals(LINE))
-                score+=1
-                break
-
-    int wordsCorrectlySpelled = 0;
-    int i = 0;
-    while((currentLine = br.readLine()) != null && i < 10) {
-        if(word.equals(wordDatabase[i]) {
-
-        }
-        //System.out.println(currentLine);
-        i++;
-    }
-
-
-
-
-    */
 
     // declare new array with 1 million free spaces
-    private static String[] wordDatabase = new String[1000000];
+    private static String[] wordDatabase = new String[10000];
 
 
     public static void main(String[] args) {
+
+
+        // buffered reader om wordlist op te slaan in een array (wordDatabase)
 
         BufferedReader br = null;
 
@@ -57,16 +49,17 @@ public class Main {
             String currentLine;
 
             // new buffered reader
-            br = new BufferedReader(new FileReader(new File("wordlist.txt")));
+            br = new BufferedReader(new FileReader(new File("sample__in]Ot6R79.txt")));
 
             // put the first 10 lines of text file (wordlist.txt) in an array
             int i = 0;
-            while ((currentLine = br.readLine()) != null && i < 10) {
+            while ((currentLine = br.readLine()) != null) {
                 wordDatabase[i] = currentLine;
                 //System.out.println(currentLine);
                 i++;
             }
 
+            
             // print the array (first 10 items)
             for(int k = 0; k < 10; k++) {
                 System.out.println(wordDatabase[k]);
@@ -76,12 +69,13 @@ public class Main {
             // "AAgr" is in the array so this will print correct
             int j = 0;
             while (j<10) {
-                if(wordDatabase[j].equals("AAgr")) {
+                if(wordDatabase[j].equals("Villon's")) {
                     System.out.println("That word is correct!");
                     break;
                 }
                 j++;
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,7 +99,7 @@ public class Main {
 
 
 
-    
+
 
 }
 
