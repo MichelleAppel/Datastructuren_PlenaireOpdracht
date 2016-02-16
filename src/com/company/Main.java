@@ -3,12 +3,52 @@ import java.io.*;
 
 public class Main {
 
+
+    // Plenaire opdracht 1: kijk hoe vaak de woorden een uit een sample bestand
+    // in de (grote) woordenlijst voorkomen, dit geeft namelijk aan hoeveel woorden
+    // correct waren geschreven.
+
+
+    // opzet
+    /*
+    int wordsCorrectlySpelled = 0
+    int i = 0;
+    while((currentLine = br.readLine()) != null && i < 10) {
+        for(int j = 0; j < wordDatabase.length; j++) {
+            if() {
+
+            }
+
+        }
+
+        i++;
+    }
+        WORD = lineAmount[i];
+        for(LINE IN WORDLIST)
+            if(WOORD.equals(LINE))
+                score+=1
+                break
+
+    int wordsCorrectlySpelled = 0;
+    int i = 0;
+    while((currentLine = br.readLine()) != null && i < 10) {
+        if(word.equals(wordDatabase[i]) {
+
+        }
+        //System.out.println(currentLine);
+        i++;
+    }
+
+
+
+
+    */
+
     // declare new array with 1 million free spaces
     private static String[] wordDatabase = new String[1000000];
 
 
     public static void main(String[] args) {
-        //System.out.println("Yo Nils het werkt facking eindelijk! :D");
 
         BufferedReader br = null;
 
@@ -54,6 +94,19 @@ public class Main {
         }
 
     }
+
+
+
+
+    // Michelle doe je jouw stukje in een nieuwe functie hieronder??
+
+
+
+
+
+
+    
+
 }
 
 
