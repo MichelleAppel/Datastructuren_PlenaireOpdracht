@@ -10,6 +10,7 @@ public class Main {
     private static String[] wordDatabase3 = new String[100000000];
     
     private static int totalCorrectWords = 0;
+    private static int totalCorrectWords3 = 0;
 
     public static void main(String[] args) {
 
@@ -67,7 +68,7 @@ public class Main {
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 1 " + runTime + " nanosecs.");
+        System.out.println("It took method 1 " + runTime + " nanosecs (" + runTime / 1000000000 + " seconds)");
     }
 
 
@@ -133,9 +134,9 @@ public class Main {
                     key += Character.getNumericValue(charAt);
                 }
                 if (wordDatabase3[key] == null) {
-                    wordDatabase3[key] = currentLine3;
+                    wordDatabase3[key] = "/" + currentLine3 + "/";
                 } else {
-                    wordDatabase3[key] += "," + currentLine3;
+                    wordDatabase3[key] += currentLine3 + "/";
                 }
                 key = 0;
             }
@@ -188,8 +189,8 @@ public class Main {
                 //System.out.println(wordDatabase3[key]);
 
                 if (currentLine33 != null && wordDatabase3[key] != null) {
-                    if (wordDatabase3[key].contains(currentLine33)){
-                        totalCorrectWords += 1;
+                    if (wordDatabase3[key].contains("/" + currentLine33 + "/")){
+                        totalCorrectWords3 += 1;
                         wordFound3 = true;
                     }
                     key = 0;
@@ -199,7 +200,7 @@ public class Main {
                 }
             }
             System.out.println("From " + wordsInFile + " words in the sample file, " +
-                    totalCorrectWords + " words were spelled correctly.");
+                    totalCorrectWords3 + " words were spelled correctly.");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -213,7 +214,7 @@ public class Main {
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 3 " + runTime + " nanosecs.");
+        System.out.println("It took method 3 " + runTime + " nanosecs. (" + runTime / 1000000000 + " seconds)" );
     }
 
 
