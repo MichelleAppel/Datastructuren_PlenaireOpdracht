@@ -64,9 +64,8 @@ public class Main {
 
 
 
-        File[] files = new File(DIR_NAME).listFiles();
-
-        for(File file_name: files) {
+        //File[] files = new File(DIR_NAME).listFiles();
+        //for(File file_name: files) {
 
             long start = System.nanoTime();
 
@@ -75,7 +74,7 @@ public class Main {
             try {
                 String currentLine2;
                 // new buffered reader (new File())
-                br2 = new BufferedReader(new FileReader(file_name));
+                br2 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
 
                 boolean wordFound;
                 int wordsCorrectlySpelled = 0;
@@ -112,7 +111,7 @@ public class Main {
             long stop = System.nanoTime();
             long runTime = stop - start;
             System.out.println(runTime);
-        }
+
 
 
 
@@ -221,7 +220,31 @@ public class Main {
     }
 
 
+
+
+
+
+
+
+
     // Michelle doe je jouw stukje in een nieuwe functie hieronder??
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
 
 
 
