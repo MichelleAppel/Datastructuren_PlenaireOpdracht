@@ -3,51 +3,15 @@ import java.io.*;
 
 public class Main {
 
-    // ALS JE OP RUN DRUKT, DUURT HET ONG 24 SEC
-    // HIJ GEEFT DE TIJD EN HET AANTAL CORRECTE WOORDEN
-
     // Plenaire opdracht 1: kijk hoe vaak de woorden een uit een sample bestand
     // in de (grote) woordenlijst voorkomen, dit geeft namelijk aan hoeveel woorden
     // correct waren geschreven.
 
-            /*
-            // opzet (NOG NIET GETEST)
-            boolean wordFound = false;
-            int wordsCorrectlySpelled = 0;
-            int i = 0;
-            while((currentLine = br.readLine()) != null && i < 10) {
-                int j = 0;
-                while(j < wordDatabase.length && !wordFound) {
-                    wordFound = false;
-                    if(currentLine.equals(wordDatabase[j])) {
-                        wordsCorrectlySpelled += 1;
-                        wordFound = true;
-                        System.out.println("The word " + currentLine + " is correct.");
-                        System.out.println("The current score is " +
-                                wordsCorrectlySpelled + " correctly spelled words.");
-                    }
-                    j++;
-                }
-                i++;
-            }
-            System.out.println("From all words in the sample file, " +
-                wordsCorrectlySpelled + " words were spelled correctly.");
-            */
-
-
     // declare new array with 1 million free spaces
     private static String[] wordDatabase = new String[1000000];
-
     private static final String DIR_NAME = "src/samples";
 
     public static void main(String[] args) {
-
-        File[] files = new File(DIR_NAME).listFiles();
-
-        //for(File file_name: files) {
-            //buffered reader per file name
-            //file_name
-        //}
 
         // buffered reader om wordlist op te slaan in een array (wordDatabase)
 
@@ -97,10 +61,66 @@ public class Main {
         }
 
 
+
+
+
+        File[] files = new File(DIR_NAME).listFiles();
+
+        for(File file_name: files) {
+
+            long start = System.nanoTime();
+
+            // buffered reader voor de sample list
+            BufferedReader br2 = null;
+            try {
+                String currentLine2;
+                // new buffered reader (new File())
+                br2 = new BufferedReader(new FileReader(file_name));
+
+                boolean wordFound;
+                int wordsCorrectlySpelled = 0;
+                int i = 0;
+                while ((currentLine2 = br2.readLine()) != null) {
+                    int j = 0;
+                    wordFound = false;
+                    while (j < wordDatabase.length && !wordFound) {
+                        if (currentLine2.equals(wordDatabase[j])) {
+                            wordsCorrectlySpelled += 1;
+                            wordFound = true;
+                            //System.out.println("The word " + currentLine2 + " is correct.");
+                            //System.out.println("The current score is " +
+                            //        wordsCorrectlySpelled + " correctly spelled words.");
+                        }
+                        j++;
+                    }
+                    i++;
+                }
+                System.out.println("From all words in the sample file, " +
+                        wordsCorrectlySpelled + " words were spelled correctly.");
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (br2 != null) br2.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            long stop = System.nanoTime();
+            long runTime = stop - start;
+            System.out.println(runTime);
+        }
+
+
+
+/*
         long start = System.nanoTime();
 
         // buffered reader voor de sample list
-        BufferedReader br2;
+        BufferedReader br2 = null;
         try {
             String currentLine2;
             // new buffered reader
@@ -132,7 +152,7 @@ public class Main {
             e.printStackTrace();
         } finally {
             try {
-                if (br != null) br.close();
+                if (br2 != null) br2.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -145,7 +165,7 @@ public class Main {
         
         // 41197890096 nanoseconden (met lines uitprinten, inlezen en opstarten)
         // 24576549076 nanoseconden (zonder uitprinten, wel met inlezen en opstarten)
-
+*/
 
     }
 
