@@ -38,9 +38,16 @@ public class Main {
     // declare new array with 1 million free spaces
     private static String[] wordDatabase = new String[1000000];
 
+    private static final String DIR_NAME = "src/samples";
 
     public static void main(String[] args) {
 
+        File[] files = new File(DIR_NAME).listFiles();
+
+        //for(File file_name: files) {
+            //buffered reader per file name
+            //file_name
+        //}
 
         // buffered reader om wordlist op te slaan in een array (wordDatabase)
 
