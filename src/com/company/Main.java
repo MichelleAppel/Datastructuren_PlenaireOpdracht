@@ -3,209 +3,82 @@ import java.io.*;
 
 public class Main {
 
-    // Plenaire opdracht 1: kijk hoe vaak de woorden een uit een sample bestand
-    // in de (grote) woordenlijst voorkomen, dit geeft namelijk aan hoeveel woorden
-    // correct waren geschreven.
-
-    // declare new array with 1 million free spaces
-    private static String[] wordDatabase = new String[1000000];
+    // declare new array with 638285 free spaces (lines amount of wordlist.txt)
+    private static String[] wordDatabase = new String[638285];
     private static final String DIR_NAME = "src/samples";
+
+    private static int totalCorrectWords = 0;
 
     public static void main(String[] args) {
 
-        // buffered reader om wordlist op te slaan in een array (wordDatabase)
+        // fill in all array indices with words from the file
+        createWordDatabase();
 
-        BufferedReader br = null;
-
-        try {
-
-            String currentLine;
-
-            // new buffered reader
-            br = new BufferedReader(new FileReader(new File("wordlist.txt")));
-
-            // put the first 10 lines of text file (wordlist.txt) in an array
-            int i = 0;
-            while ((currentLine = br.readLine()) != null) {
-                wordDatabase[i] = currentLine;
-                //System.out.println(currentLine);
-                i++;
-            }
-
-
-            // print the array (first 10 items)
-            for(int k = 0; k < 10; k++) {
-                System.out.println(wordDatabase[k]);
-            }
-
-            // compare word with array items (just 1 word to test)
-            // "AAgr" is in the array so this will print correct
-            int j = 0;
-            while (j<10) {
-                if(wordDatabase[j].equals("Villon's")) {
-                    System.out.println("That word is correct!");
-                    break;
-                }
-                j++;
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) br.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-
-
-
-
+        // for multiple files
         //File[] files = new File(DIR_NAME).listFiles();
         //for(File file_name: files) {
 
-            long start = System.nanoTime();
-
-            // buffered reader voor de sample list
-            BufferedReader br2 = null;
-            try {
-                String currentLine2;
-                // new buffered reader (new File())
-                br2 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
-
-                boolean wordFound;
-                int wordsCorrectlySpelled = 0;
-                int i = 0;
-                while ((currentLine2 = br2.readLine()) != null) {
-                    int j = 0;
-                    wordFound = false;
-                    while (j < wordDatabase.length && !wordFound) {
-                        if (currentLine2.equals(wordDatabase[j])) {
-                            wordsCorrectlySpelled += 1;
-                            wordFound = true;
-                            //System.out.println("The word " + currentLine2 + " is correct.");
-                            //System.out.println("The current score is " +
-                            //        wordsCorrectlySpelled + " correctly spelled words.");
-                        }
-                        j++;
-                    }
-                    i++;
-                }
-                System.out.println("From all words in the sample file, " +
-                        wordsCorrectlySpelled + " words were spelled correctly.");
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (br2 != null) br2.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-
-            long stop = System.nanoTime();
-            long runTime = stop - start;
-            System.out.println(runTime);
-
-
-
-
-/*
+        // measure start time
         long start = System.nanoTime();
 
         // buffered reader voor de sample list
         BufferedReader br2 = null;
         try {
             String currentLine2;
-            // new buffered reader
-            br2 = new BufferedReader(new FileReader(new File("sample__in]Ot6R79.txt")));
+            // new buffered reader (new File())
+            br2 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
 
             boolean wordFound;
-            int wordsCorrectlySpelled = 0;
+            int wordsInFile = 0;
             int i = 0;
-            while((currentLine2 = br2.readLine()) != null) {
+            while ((currentLine2 = br2.readLine()) != null) {
                 int j = 0;
                 wordFound = false;
-                while(j < wordDatabase.length && !wordFound) {
-                    if(currentLine2.equals(wordDatabase[j])) {
-                        wordsCorrectlySpelled += 1;
+                while (j < wordDatabase.length && !wordFound) {
+                    if (currentLine2.equals(wordDatabase[j])) {
+                        totalCorrectWords += 1;
                         wordFound = true;
-                        //System.out.println("The word " + currentLine2 + " is correct.");
-                        //System.out.println("The current score is " +
-                        //        wordsCorrectlySpelled + " correctly spelled words.");
                     }
                     j++;
                 }
                 i++;
+                wordsInFile = i;
             }
-            System.out.println("From all words in the sample file, " +
-                  wordsCorrectlySpelled + " words were spelled correctly.");
-
+            System.out.println("From " + wordsInFile + " words in the sample file, " +
+                    totalCorrectWords + " words were spelled correctly.");
 
         } catch (IOException e) {
-            e.printStackTrace();
+                e.printStackTrace();
         } finally {
-            try {
-                if (br2 != null) br2.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+                try {
+                    if (br2 != null) br2.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
         }
 
-        long stop = System.nanoTime();
-        long runTime = stop-start;
-        System.out.println(runTime);
-
-        
-        // 41197890096 nanoseconden (met lines uitprinten, inlezen en opstarten)
-        // 24576549076 nanoseconden (zonder uitprinten, wel met inlezen en opstarten)
-*/
-
+            // measure stop time and substract start time to get execution time
+            long stop = System.nanoTime();
+            long runTime = stop - start;
+            System.out.println(runTime);
     }
 
-
-    public static void readWordFile(String name) {
+    public static void createWordDatabase() {
         // buffered reader om wordlist op te slaan in een array (wordDatabase)
-
         BufferedReader br = null;
 
         try {
-
             String currentLine;
 
             // new buffered reader
-            br = new BufferedReader(new FileReader(new File(name)));
+            br = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
-            // put the first 10 lines of text file (wordlist.txt) in an array
+            // put all the lines (words) of wordlist.txt in the array
             int i = 0;
             while ((currentLine = br.readLine()) != null) {
                 wordDatabase[i] = currentLine;
-                //System.out.println(currentLine);
                 i++;
             }
-
-
-            // print the array (first 10 items)
-            for(int k = 0; k < 10; k++) {
-                System.out.println(wordDatabase[k]);
-            }
-
-            // compare word with array items (just 1 word to test)
-            // "AAgr" is in the array so this will print correct
-            int j = 0;
-            while (j<10) {
-                if(wordDatabase[j].equals("Villon's")) {
-                    System.out.println("That word is correct!");
-                    break;
-                }
-                j++;
-            }
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -216,7 +89,6 @@ public class Main {
                 ex.printStackTrace();
             }
         }
-
     }
 
 
@@ -240,7 +112,7 @@ public class Main {
 
 
 
-    
+
 
 
 
