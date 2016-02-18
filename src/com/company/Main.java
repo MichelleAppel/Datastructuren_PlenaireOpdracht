@@ -6,6 +6,7 @@ public class Main {
     // declare new array with 638285 free spaces (lines amount of wordlist.txt)
     private static final String DIR_NAME = "src/samples";
 
+    
     private static String[] wordDatabase = new String[638285];
     private static String[] wordDatabase2 = new String[100000000];
     private static String[] wordDatabase3 = new String[5000];
