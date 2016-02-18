@@ -17,11 +17,11 @@ public class Main {
     public static void main(String[] args) {
 
         // fill in all array indices with words from the file
-        //createWordDatabase1();
-        //spellcheck1();
+        createWordDatabase1();
+        spellcheck1();
 
-        //createWordDatabase2();
-        //spellcheck2();
+        createWordDatabase2();
+        spellcheck2();
 
         createWordDatabase3();
         spellcheck3();
@@ -367,6 +367,6 @@ public class Main {
         return key;
     }
 
-    
+
 }
 
