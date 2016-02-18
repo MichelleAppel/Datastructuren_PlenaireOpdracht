@@ -7,7 +7,7 @@ public class Main {
     private static String[] wordDatabase = new String[638285];
     private static final String DIR_NAME = "src/samples";
 
-    private static String[] wordDatabase3 = new String[100000000];
+    private static String[] wordDatabase3 = new String[10000];
     
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords3 = 0;
@@ -68,7 +68,7 @@ public class Main {
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 1 " + runTime + " nanosecs (" + runTime / 1000000000 + " seconds)");
+        System.out.println("It took method 1 "  + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)");
     }
 
 
@@ -127,11 +127,9 @@ public class Main {
 
             // put the lines of text file (wordlist.txt) in an array
             int key = 0;
-            char charAt;
             while ((currentLine3 = br3.readLine()) != null) {
                 for(int i = 0; i < currentLine3.length(); i++) {
-                    charAt = currentLine3.charAt(i);
-                    key += Character.getNumericValue(charAt);
+                    key += Character.getNumericValue(currentLine3.charAt(i));
                 }
                 if (wordDatabase3[key] == null) {
                     wordDatabase3[key] = "/" + currentLine3 + "/";
@@ -171,32 +169,21 @@ public class Main {
             // new buffered reader (new File())
             br33 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
 
-            boolean wordFound3;
+
             int wordsInFile = 0;
-            int i = 0;
             int key = 0;
             while ((currentLine33 = br33.readLine()) != null) {
-                wordFound3 = false;
-
-                char charAt;
 
                 for (int l = 0; l < currentLine33.length(); l++) {
-                    charAt = currentLine33.charAt(l);
-                    key += Character.getNumericValue(charAt);
+                    key += Character.getNumericValue(currentLine33.charAt(l));
                 }
 
-                //System.out.println(currentLine33);
-                //System.out.println(wordDatabase3[key]);
-
-                if (currentLine33 != null && wordDatabase3[key] != null) {
+                if (wordDatabase3[key] != null) {
                     if (wordDatabase3[key].contains("/" + currentLine33 + "/")){
                         totalCorrectWords3 += 1;
-                        wordFound3 = true;
                     }
                     key = 0;
-
-                    i++;
-                    wordsInFile = i;
+                    wordsInFile++;
                 }
             }
             System.out.println("From " + wordsInFile + " words in the sample file, " +
@@ -214,7 +201,7 @@ public class Main {
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 3 " + runTime + " nanosecs. (" + runTime / 1000000000 + " seconds)" );
+        System.out.println("It took method 3 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
     }
 
 
