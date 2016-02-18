@@ -8,7 +8,7 @@ public class Main {
 
     private static String[] wordDatabase = new String[638285];
     private static String[] wordDatabase2 = new String[100000000];
-    private static String[] wordDatabase3 = new String[10000];
+    private static String[] wordDatabase3 = new String[5000];
     //private static String[] wordDatabase4 = new String[1000000];
 
     private static int totalCorrectWords = 0;
@@ -112,6 +112,7 @@ public class Main {
     }
 
     public static void createWordDatabase2() {
+        long start = System.nanoTime();
         // buffered reader om wordlist op te slaan in een hash table (wordDatabase)
 
         BufferedReader br21 = null;
@@ -161,6 +162,9 @@ public class Main {
                 ex.printStackTrace();
             }
         }
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
 
     }
 
@@ -238,7 +242,7 @@ public class Main {
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 2 " + runTime + " nanosecs. (" + runTime / 1000000000 + " seconds)" );
+        System.out.println("It took method 2 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)"  );
     }
 
     public static void createWordDatabase3() {
