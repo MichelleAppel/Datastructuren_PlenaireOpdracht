@@ -10,23 +10,29 @@ public class Main {
     private static String[] wordDatabase = new String[638285];
     private static String[] wordDatabase2 = new String[100000000];
     private static String[] wordDatabase3 = new String[5000];
-    //private static String[] wordDatabase4 = new String[1000000];
+    private static Boolean[][][][][][][][][][][][][][][][][][][][][] wordDatabase4;
+
+    static {
+        wordDatabase4 = new Boolean[95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95];
+    }
 
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
     private static int totalCorrectWords3 = 0;
-    //private static int totalCorrectWords4 = 0;
+    private static int totalCorrectWords4 = 0;
 
 
     public static void main(String[] args) {
-        createWordDatabase1();
-        spellcheck1();
+        //createWordDatabase1();
+        //spellcheck1();
 
-        createWordDatabase2();
-        spellcheck2();
+        //createWordDatabase2();
+        //spellcheck2();
 
-        createWordDatabase3();
-        spellcheck3();
+        //createWordDatabase3();
+        //spellcheck3();
+
+        createWordDatabase4();
     }
 
     public static void createWordDatabase1() {
@@ -346,7 +352,84 @@ public class Main {
 
 
     public static void createWordDatabase4() {
-        // insert code here
+        // buffered reader om wordlist op te slaan in een array (wordDatabase3)
+        long start = System.nanoTime();
+        BufferedReader br4 = null;
+
+        try {
+            String currentLine4;
+
+            // new buffered reader
+            br4 = new BufferedReader(new FileReader(new File("wordlist.txt")));
+
+            int x1 = 0;
+            int x2 = 0;
+            int x3 = 0;
+            int x4 = 0;
+            int x5 = 0;
+            int x6 = 0;
+            int x7 = 0;
+            int x8 = 0;
+            int x9 = 0;
+            int x10 = 0;
+            int x11 = 0;
+            int x12 = 0;
+            int x13 = 0;
+            int x14 = 0;
+            int x15 = 0;
+            int x16 = 0;
+            int x17 = 0;
+            int x18 = 0;
+            int x19 = 0;
+            int x20 = 0;
+            int x21 = 0;
+
+
+            // put the lines of text file (wordlist.txt) in an array at the index given by the key of the word
+            // which is the numeric value of the characters summed up
+            while ((currentLine4 = br4.readLine()) != null) {
+                x1 = Character.getNumericValue(currentLine4.charAt(0))-32;
+                x2 = Character.getNumericValue(currentLine4.charAt(1))-32;
+                x3 = Character.getNumericValue(currentLine4.charAt(2))-32;
+                x4 = Character.getNumericValue(currentLine4.charAt(3))-32;
+                x5 = Character.getNumericValue(currentLine4.charAt(4))-32;
+                x6 = Character.getNumericValue(currentLine4.charAt(5))-32;
+                x7 = Character.getNumericValue(currentLine4.charAt(6))-32;
+                x8 = Character.getNumericValue(currentLine4.charAt(7))-32;
+                x9 = Character.getNumericValue(currentLine4.charAt(8))-32;
+                x10 = Character.getNumericValue(currentLine4.charAt(9))-32;
+                x11 = Character.getNumericValue(currentLine4.charAt(10))-32;
+                x12 = Character.getNumericValue(currentLine4.charAt(11))-32;
+                x13 = Character.getNumericValue(currentLine4.charAt(12))-32;
+                x14 = Character.getNumericValue(currentLine4.charAt(13))-32;
+                x15 = Character.getNumericValue(currentLine4.charAt(14))-32;
+                x16 = Character.getNumericValue(currentLine4.charAt(15))-32;
+                x17 = Character.getNumericValue(currentLine4.charAt(16))-32;
+                x18 = Character.getNumericValue(currentLine4.charAt(17))-32;
+                x19 = Character.getNumericValue(currentLine4.charAt(18))-32;
+                x20 = Character.getNumericValue(currentLine4.charAt(19))-32;
+                x21 = Character.getNumericValue(currentLine4.charAt(20))-32;
+
+
+
+                wordDatabase4[x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11][x12][x13][x14][x15][x16][x17][x18][x19][x20][x21] = true;
+            }
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br4 != null) br4.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
+
     }
 
     public static void spellcheck4() {
