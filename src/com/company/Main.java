@@ -20,6 +20,8 @@ public class Main {
 
         createWordDatabase3();
         spellcheck3();
+
+
     }
 
     public static void spellcheck1() {
@@ -74,6 +76,7 @@ public class Main {
 
 
     public static void createWordDatabase1() {
+        long start = System.nanoTime();
         // buffered reader om wordlist op te slaan in een array (wordDatabase)
         BufferedReader br = null;
 
@@ -99,6 +102,11 @@ public class Main {
                 ex.printStackTrace();
             }
         }
+
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 1 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
+
     }
 
 
@@ -114,29 +122,26 @@ public class Main {
 
 
     public static void createWordDatabase3() {
-        // buffered reader om wordlist op te slaan in een hash table (wordDatabase)
-
+        // buffered reader om wordlist op te slaan in een array (wordDatabase3)
+        long start = System.nanoTime();
         BufferedReader br3 = null;
 
         try {
-
             String currentLine3;
+            int key;
 
             // new buffered reader
             br3 = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
-            // put the lines of text file (wordlist.txt) in an array
-            int key = 0;
+            // put the lines of text file (wordlist.txt) in an array at the index given by the key of the word
+            // which is the numeric value of the characters summed up
             while ((currentLine3 = br3.readLine()) != null) {
-                for(int i = 0; i < currentLine3.length(); i++) {
-                    key += Character.getNumericValue(currentLine3.charAt(i));
-                }
-                if (wordDatabase3[key] == null) {
-                    wordDatabase3[key] = "/" + currentLine3 + "/";
-                } else {
+            key = keyGen(currentLine3);
+                if (wordDatabase3[key] != null) {
                     wordDatabase3[key] += currentLine3 + "/";
+                } else {
+                    wordDatabase3[key] = "/" + currentLine3 + "/";
                 }
-                key = 0;
             }
 
 
@@ -150,6 +155,9 @@ public class Main {
                 ex.printStackTrace();
             }
         }
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
 
     }
 
@@ -171,18 +179,16 @@ public class Main {
 
 
             int wordsInFile = 0;
-            int key = 0;
+            int key;
             while ((currentLine33 = br33.readLine()) != null) {
 
-                for (int l = 0; l < currentLine33.length(); l++) {
-                    key += Character.getNumericValue(currentLine33.charAt(l));
-                }
+                key = keyGen(currentLine33);
 
                 if (wordDatabase3[key] != null) {
                     if (wordDatabase3[key].contains("/" + currentLine33 + "/")){
                         totalCorrectWords3 += 1;
                     }
-                    key = 0;
+
                     wordsInFile++;
                 }
             }
@@ -207,7 +213,13 @@ public class Main {
 
 
 
-
+public static int keyGen(String word) {
+    int key = 0;
+    for(int i = 0; i < word.length(); i++) {
+        key += Character.getNumericValue(word.charAt(i));
+    }
+    return key;
+}
 
 
 
