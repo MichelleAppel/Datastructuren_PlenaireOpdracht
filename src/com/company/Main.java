@@ -8,7 +8,7 @@ public class Main {
 
     private static String[] wordDatabase = new String[638285];
     private static String[] wordDatabase2 = new String[100000000];
-    private static String[] wordDatabase3 = new String[10000];
+    private static String[] wordDatabase3 = new String[5000];
 
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
@@ -17,11 +17,11 @@ public class Main {
     public static void main(String[] args) {
 
         // fill in all array indices with words from the file
-        createWordDatabase1();
-        spellcheck1();
+        //createWordDatabase1();
+        //spellcheck1();
 
-        createWordDatabase2();
-        spellcheck2();
+        //createWordDatabase2();
+        //spellcheck2();
 
         createWordDatabase3();
         spellcheck3();
@@ -112,6 +112,7 @@ public class Main {
 
 
     public static void createWordDatabase2() {
+        long start = System.nanoTime();
         // buffered reader om wordlist op te slaan in een hash table (wordDatabase)
 
         BufferedReader br21 = null;
@@ -162,6 +163,9 @@ public class Main {
                 ex.printStackTrace();
             }
         }
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
 
     }
 
@@ -239,7 +243,7 @@ public class Main {
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 2 " + runTime + " nanosecs. (" + runTime / 1000000000 + " seconds)" );
+        System.out.println("It took method 2 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)"  );
     }
 
 
@@ -355,58 +359,14 @@ public class Main {
 
 
 
-public static int keyGen(String word) {
-    int key = 0;
-    for(int i = 0; i < word.length(); i++) {
-        key += Character.getNumericValue(word.charAt(i));
+    public static int keyGen(String word) {
+        int key = 0;
+        for(int i = 0; i < word.length(); i++) {
+            key += Character.getNumericValue(word.charAt(i));
+        }
+        return key;
     }
-    return key;
+
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
-
-// end of file
-
-    /*
-
-    COMMENTS
-
-    public static void main(String args[])throws IOException{
-
-        File file = new File("hello1.txt");
-
-        // creates the file
-         file.createNewFile();
-        // creates a FileWriter Object
-         FileWriter writer = new FileWriter(file);
-        // Writes the content to the file
-         writer.write("This\n is\n an\n example\n");
-         writer.flush();
-         writer.close();
-
-        //Creates a FileReader Object
-        FileReader fr = new FileReader(file);
-        char [] a = new char[50];
-        fr.read(a); // reads the content to the array
-        for(char c : a)
-            System.out.print(c); //prints the characters one by one
-        fr.close();
-
-
-    }
-    */
-    // een test
 
