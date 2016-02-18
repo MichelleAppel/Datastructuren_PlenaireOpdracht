@@ -6,17 +6,19 @@ public class Main {
     // declare new array with 638285 free spaces (lines amount of wordlist.txt)
     private static final String DIR_NAME = "src/samples";
 
+    
     private static String[] wordDatabase = new String[638285];
     private static String[] wordDatabase2 = new String[100000000];
     private static String[] wordDatabase3 = new String[5000];
+    //private static String[] wordDatabase4 = new String[1000000];
 
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
     private static int totalCorrectWords3 = 0;
+    //private static int totalCorrectWords4 = 0;
+
 
     public static void main(String[] args) {
-
-        // fill in all array indices with words from the file
         createWordDatabase1();
         spellcheck1();
 
@@ -25,6 +27,40 @@ public class Main {
 
         createWordDatabase3();
         spellcheck3();
+    }
+
+    public static void createWordDatabase1() {
+        long start = System.nanoTime();
+        // buffered reader om wordlist op te slaan in een array (wordDatabase)
+        BufferedReader br11 = null;
+
+        try {
+            String currentLine;
+
+            // new buffered reader
+            br11 = new BufferedReader(new FileReader(new File("wordlist.txt")));
+
+            // put all the lines (words) of wordlist.txt in the array
+            int i = 0;
+            while ((currentLine = br11.readLine()) != null) {
+                wordDatabase[i] = currentLine;
+                i++;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br11 != null) br11.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 1 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
+
     }
 
     public static void spellcheck1() {
@@ -36,16 +72,16 @@ public class Main {
         long start = System.nanoTime();
 
         // buffered reader voor de sample list
-        BufferedReader br2 = null;
+        BufferedReader br12 = null;
         try {
             String currentLine2;
             // new buffered reader (new File())
-            br2 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
+            br12 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
 
             boolean wordFound;
             int wordsInFile = 0;
             int i = 0;
-            while ((currentLine2 = br2.readLine()) != null) {
+            while ((currentLine2 = br12.readLine()) != null) {
                 int j = 0;
                 wordFound = false;
                 while (j < wordDatabase.length && !wordFound) {
@@ -65,7 +101,7 @@ public class Main {
             e.printStackTrace();
         } finally {
             try {
-                if (br2 != null) br2.close();
+                if (br12 != null) br12.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -76,41 +112,6 @@ public class Main {
         System.out.println("It took method 1 "  + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)");
     }
 
-    public static void createWordDatabase1() {
-        long start = System.nanoTime();
-        // buffered reader om wordlist op te slaan in een array (wordDatabase)
-        BufferedReader br = null;
-
-        try {
-            String currentLine;
-
-            // new buffered reader
-            br = new BufferedReader(new FileReader(new File("wordlist.txt")));
-
-            // put all the lines (words) of wordlist.txt in the array
-            int i = 0;
-            while ((currentLine = br.readLine()) != null) {
-                wordDatabase[i] = currentLine;
-                i++;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br != null) br.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        long stop = System.nanoTime();
-        long runTime = stop - start;
-        System.out.println("It took method 1 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
-
-    }
-
-
     public static void createWordDatabase2() {
         long start = System.nanoTime();
         // buffered reader om wordlist op te slaan in een hash table (wordDatabase)
@@ -118,7 +119,6 @@ public class Main {
         BufferedReader br21 = null;
 
         try {
-
             String currentLine21;
 
             // new buffered reader
@@ -246,47 +246,26 @@ public class Main {
         System.out.println("It took method 2 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)"  );
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Michelle doe je jouw stukje in een nieuwe functie hieronder??
-
-
-
     public static void createWordDatabase3() {
         // buffered reader om wordlist op te slaan in een array (wordDatabase3)
         long start = System.nanoTime();
-        BufferedReader br3 = null;
+        BufferedReader br31 = null;
 
         try {
-            String currentLine3;
+            String currentLine31;
             int key;
 
             // new buffered reader
-            br3 = new BufferedReader(new FileReader(new File("wordlist.txt")));
+            br31 = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
             // put the lines of text file (wordlist.txt) in an array at the index given by the key of the word
             // which is the numeric value of the characters summed up
-            while ((currentLine3 = br3.readLine()) != null) {
-            key = keyGen(currentLine3);
+            while ((currentLine31 = br31.readLine()) != null) {
+            key = keyGen(currentLine31);
                 if (wordDatabase3[key] != null) {
-                    wordDatabase3[key] += currentLine3 + "/";
+                    wordDatabase3[key] += currentLine31 + "/";
                 } else {
-                    wordDatabase3[key] = "/" + currentLine3 + "/";
+                    wordDatabase3[key] = "/" + currentLine31 + "/";
                 }
             }
 
@@ -296,7 +275,7 @@ public class Main {
             e.printStackTrace();
         } finally {
             try {
-                if (br3 != null) br3.close();
+                if (br31 != null) br31.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -317,16 +296,16 @@ public class Main {
         long start = System.nanoTime();
 
         // buffered reader voor de sample list
-        BufferedReader br33 = null;
+        BufferedReader br32 = null;
         try {
             String currentLine33;
             // new buffered reader (new File())
-            br33 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
+            br32 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
 
 
             int wordsInFile = 0;
             int key;
-            while ((currentLine33 = br33.readLine()) != null) {
+            while ((currentLine33 = br32.readLine()) != null) {
 
                 key = keyGen(currentLine33);
 
@@ -334,7 +313,6 @@ public class Main {
                     if (wordDatabase3[key].contains("/" + currentLine33 + "/")){
                         totalCorrectWords3 += 1;
                     }
-
                     wordsInFile++;
                 }
             }
@@ -345,7 +323,7 @@ public class Main {
             e.printStackTrace();
         } finally {
             try {
-                if (br33 != null) br33.close();
+                if (br32 != null) br32.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -356,9 +334,6 @@ public class Main {
         System.out.println("It took method 3 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
     }
 
-
-
-
     public static int keyGen(String word) {
         int key = 0;
         for(int i = 0; i < word.length(); i++) {
@@ -368,5 +343,21 @@ public class Main {
     }
 
 
+
+
+    public static void createWordDatabase4() {
+        // insert code here
+    }
+
+    public static void spellcheck4() {
+        // insert code here
+    }
+
+
+
+
+
+
 }
 
+// end of file
