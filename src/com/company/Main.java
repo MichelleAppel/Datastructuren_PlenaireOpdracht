@@ -201,6 +201,7 @@ public class Main {
                     }
                 }
                 //key = 0;
+                
                 i++;
                 wordsInFile = i;
             }
