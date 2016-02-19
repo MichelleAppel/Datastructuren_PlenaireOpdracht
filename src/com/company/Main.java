@@ -24,11 +24,11 @@ public class Main {
         createWordDatabase1();
         spellcheck1();
 
-        createWordDatabase2();
-        spellcheck2();
+        //createWordDatabase2();
+        //spellcheck2();
 
-        createWordDatabase3();
-        spellcheck3();
+        //createWordDatabase3();
+        //spellcheck3();
 
         //createWordDatabase4();
         //spellcheck4();
@@ -71,52 +71,53 @@ public class Main {
 
     public static void spellcheck1() {
         // for multiple files
-        //File[] files = new File(DIR_NAME).listFiles();
-        //for(File file_name: files) {
+        File[] files = new File(DIR_NAME).listFiles();
+        for(File file_name: files) {
 
-        // measure start time
-        long start = System.nanoTime();
+            // measure start time
+            long start = System.nanoTime();
 
-        // buffered reader voor de sample list
-        BufferedReader br12 = null;
-        try {
-            String currentLine2;
-            // new buffered reader (new File())
-            br12 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
-
-            boolean wordFound;
-            int wordsInFile = 0;
-            int i = 0;
-            while ((currentLine2 = br12.readLine()) != null) {
-                int j = 0;
-                wordFound = false;
-                while (j < wordDatabase.length && !wordFound) {
-                    if (currentLine2.equals(wordDatabase[j])) {
-                        totalCorrectWords += 1;
-                        wordFound = true;
-                    }
-                    j++;
-                }
-                i++;
-                wordsInFile = i;
-            }
-            System.out.println("From " + wordsInFile + " words in the sample file, " +
-                    totalCorrectWords + " words were spelled correctly.");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+            // buffered reader voor de sample list
+            BufferedReader br12 = null;
             try {
-                if (br12 != null) br12.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                String currentLine2;
+                // new buffered reader (new File())
+                br12 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
+
+                boolean wordFound;
+                int wordsInFile = 0;
+                int i = 0;
+                while ((currentLine2 = br12.readLine()) != null) {
+                    int j = 0;
+                    wordFound = false;
+                    while (j < wordDatabase.length && !wordFound) {
+                        if (currentLine2.equals(wordDatabase[j])) {
+                            totalCorrectWords += 1;
+                            wordFound = true;
+                        }
+                        j++;
+                    }
+                    i++;
+                    wordsInFile = i;
+                }
+                System.out.println("From " + wordsInFile + " words in the sample file, " +
+                        totalCorrectWords + " words were spelled correctly.");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (br12 != null) br12.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
+            // measure stop time and substract start time to get execution time
+            long stop = System.nanoTime();
+            long runTime = stop - start;
+            System.out.println("It took method 1 " + runTime + " nanosecs. (" + runTime / 1000000000 + "."
+                    + ((runTime / 10000000) - (runTime / 1000000000) * 100) + " seconds)");
         }
-        // measure stop time and substract start time to get execution time
-        long stop = System.nanoTime();
-        long runTime = stop - start;
-        System.out.println("It took method 1 "  + runTime + " nanosecs. (" + runTime / 1000000000 + "."
-                + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)");
     }
 
     public static void createWordDatabase2() {
