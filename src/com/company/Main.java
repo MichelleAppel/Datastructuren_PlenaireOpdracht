@@ -290,7 +290,7 @@ public class Main {
                 int key;
                 while ((currentLine33 = br32.readLine()) != null) {
                     key = keyGen(currentLine33);
-                    if (wordDatabase3[key] != null) {
+                     if (key >= 0 && wordDatabase3[key] != null) {
                         if (wordDatabase3[key].contains("/" + currentLine33 + "/")) {
                             totalCorrectWords3 += 1;
                         }
@@ -360,14 +360,19 @@ public class Main {
             // new buffered reader
             br4 = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
+            int char_value;
+            int char_value1;
             while ((currentLine4 = br4.readLine()) != null) {
-                int char_at;
-                int char_at1;
-                for(int i = 0; i < currentLine4.length(); i++){
-                    char_at = Character.getNumericValue(currentLine4.charAt(i)) - 64;
+                for(int i = 0; i < currentLine4.length(); i++) {
+                    char_value = Character.getNumericValue(currentLine4.charAt(i)) - 64;
+                    if(i + 1 < currentLine4.length()) {
+                        char_value1 = Character.getNumericValue(currentLine4.charAt(i + 1) - 64);
+                        int[] data1 = new int[63];
+                    } else {
+                        
+                    }
 
                 }
-
             }
 
         } catch (IOException e) {
@@ -403,7 +408,7 @@ public class Main {
             int char_at1;
             while ((currentLine42 = br42.readLine()) != null) {
 
-                // fillin
+
 
                 }
 

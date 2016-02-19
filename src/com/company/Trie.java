@@ -5,6 +5,9 @@ package com.company;
  */
 public class Trie {
     /*
+    String word;
+    char c;
+
     Node root;
     Node cur = root;
     for(c in word) {
@@ -15,4 +18,5 @@ public class Trie {
     }
     cur.has = true;
     */
+
 }
