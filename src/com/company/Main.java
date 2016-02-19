@@ -26,11 +26,11 @@ public class Main {
         //createWordDatabase1();
         //spellcheck1();
 
-        createWordDatabase2();
-        spellcheck2();
+        //createWordDatabase2();
+        //spellcheck2();
 
-        //createWordDatabase3();
-        //spellcheck3();
+        createWordDatabase3();
+        spellcheck3();
 
         //createWordDatabase4();
         //spellcheck4();
@@ -278,44 +278,36 @@ public class Main {
 
 
     public static void spellcheck3() {
-        // for multiple files
-        //File[] files = new File(DIR_NAME).listFiles();
-        //for(File file_name: files) {
-
-        // measure start time
+        File[] files = new File(DIR_NAME).listFiles();
         long start = System.nanoTime();
 
-        // buffered reader voor de sample list
-        BufferedReader br32 = null;
-        try {
-            String currentLine33;
-            // new buffered reader (new File())
-            br32 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
-
-
-            wordsInFile = 0;
-            int key;
-            while ((currentLine33 = br32.readLine()) != null) {
-
-                key = keyGen(currentLine33);
-
-                if (wordDatabase3[key] != null) {
-                    if (wordDatabase3[key].contains("/" + currentLine33 + "/")){
-                        totalCorrectWords3 += 1;
-                    }
-                    wordsInFile++;
-                }
-            }
-            System.out.println("From " + wordsInFile + " words in the sample file, " +
-                    totalCorrectWords3 + " words were spelled correctly.");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+        for(File file_name: files) {
+            BufferedReader br32 = null;
             try {
-                if (br32 != null) br32.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                String currentLine33;
+                br32 = new BufferedReader(new FileReader(file_name));
+                wordsInFile = 0;
+                int key;
+                while ((currentLine33 = br32.readLine()) != null) {
+                    key = keyGen(currentLine33);
+                    if (wordDatabase3[key] != null) {
+                        if (wordDatabase3[key].contains("/" + currentLine33 + "/")) {
+                            totalCorrectWords3 += 1;
+                        }
+                        wordsInFile++;
+                    }
+                }
+                System.out.println("From " + wordsInFile + " words in the sample file, " +
+                        totalCorrectWords3 + " words were spelled correctly.");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (br32 != null) br32.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
         // measure stop time and substract start time to get execution time
