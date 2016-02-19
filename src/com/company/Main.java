@@ -184,7 +184,6 @@ public class Main {
         long start = System.nanoTime();
         for(File file_name: files) {
             if(!file_name.equals("src/samples/.DS_Store")) {
-                //System.out.println(file_name);
                 BufferedReader br22 = null;
                 try {
                     String currentLine22;
