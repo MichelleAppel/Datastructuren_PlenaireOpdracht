@@ -6,33 +6,29 @@ public class Main {
     // declare new array with 638285 free spaces (lines amount of wordlist.txt)
     private static final String DIR_NAME = "src/samples";
 
-    
-    private static String[] wordDatabase = new String[638285];
-    private static String[] wordDatabase2 = new String[100000000];
-    private static String[] wordDatabase3 = new String[5000];
-    private static Boolean[][][][][][][][][][][][][][][][][][][][][] wordDatabase4;
 
-    static {
-        wordDatabase4 = new Boolean[95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95][95];
-    }
+    private static String[] wordDatabase = new String[638285];
+    private static String[] wordDatabase2 = new String[1000000];
+    private static String[] wordDatabase3 = new String[5000];
 
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
     private static int totalCorrectWords3 = 0;
-    private static int totalCorrectWords4 = 0;
+    //private static int totalCorrectWords4 = 0;
 
 
     public static void main(String[] args) {
         //createWordDatabase1();
         //spellcheck1();
 
-        //createWordDatabase2();
-        //spellcheck2();
+        createWordDatabase2();
+        spellcheck2();
 
         //createWordDatabase3();
         //spellcheck3();
 
-        createWordDatabase4();
+        //createWordDatabase4();
+        //spellcheck4();
     }
 
     public static void createWordDatabase1() {
@@ -130,34 +126,24 @@ public class Main {
             // new buffered reader
             br21 = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
-            // put the lines of text file (wordlist.txt) in an hashmap
-            int key = 0;
-            char charAt;
-            int firstPrime = 7;
-            int secondPrime = 11;
+            // put the lines of text file (wordlist.txt) in a hashmap
+            int key;
             while ((currentLine21 = br21.readLine()) != null) {
-                for(int i = 0; i < currentLine21.length(); i++) {
-                    charAt = currentLine21.charAt(i);
-                    key += Character.getNumericValue(charAt);
-                }
-                // multiply key by word length times firstPrime
-                int wordLength = currentLine21.length();
-                key *= wordLength*firstPrime;
-
-                // add numeric value of first char times word length times secondPrime
-                char firstLetter = currentLine21.charAt(0);
-                key += Character.getNumericValue(firstLetter)*wordLength*secondPrime;
-
+                key = specialKeyGen(currentLine21);
                 boolean wordIsPlaced = false;
                 while(!wordIsPlaced) {
-                    if(wordDatabase2[key] == null) {
-                        wordDatabase2[key] = currentLine21;
-                        wordIsPlaced = true;
+                    if(key < 1000000) {
+                        if (wordDatabase2[key] == null) {
+                            wordDatabase2[key] = currentLine21;
+                            wordIsPlaced = true;
+                        } else {
+                            key += 1;
+                        }
                     } else {
-                        key += firstLetter;
+                        key -= 999999;
                     }
                 }
-                key = 0;
+                //key = 0;
             }
 
         } catch (IOException e) {
@@ -171,7 +157,7 @@ public class Main {
         }
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
+        System.out.println("It took method 2 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
 
     }
 
@@ -193,44 +179,28 @@ public class Main {
             boolean wordFound2;
             int wordsInFile = 0;
             int i = 0;
-            int key = 0;
-            int firstPrime = 7;
-            int secondPrime = 11;
+            int key;
             while ((currentLine22 = br22.readLine()) != null) {
+                key = specialKeyGen(currentLine22);
                 wordFound2 = false;
-
-                char charAt;
-
-                for (int l = 0; l < currentLine22.length(); l++) {
-                        charAt = currentLine22.charAt(l);
-                        key += Character.getNumericValue(charAt);
-                    }
-
-                // multiply key by word length times firstPrime
-                int wordLength = currentLine22.length();
-                key *= wordLength*firstPrime;
-
-                // add numeric value of first char times word length times secondPrime
-                char firstLetter = currentLine22.charAt(0);
-                key += Character.getNumericValue(firstLetter)*wordLength*secondPrime;
-
-                //System.out.println(currentLine33);
-                //System.out.println(wordDatabase3[key]);
 
                 int currentKey = key;
                 while(!wordFound2 && key < currentKey+1000000) {
-                    if(wordDatabase2[key] == null) {
-                        break;
-                    }
-                    if(wordDatabase2[key].equals(currentLine22)) {
-                        totalCorrectWords2 += 1;
-                        wordFound2 = true;
+                    if(key < 1000000) {
+                        if (wordDatabase2[key] == null) {
+                            break;
+                        }
+                        if (wordDatabase2[key].equals(currentLine22)) {
+                            totalCorrectWords2 += 1;
+                            wordFound2 = true;
+                        } else {
+                            key += 1;
+                        }
                     } else {
-                        key += firstLetter;
+                        key -= 999999;
                     }
                 }
-
-                key = 0;
+                //key = 0;
                 i++;
                 wordsInFile = i;
             }
@@ -348,88 +318,29 @@ public class Main {
         return key;
     }
 
+    public static int specialKeyGen(String word) {
+        int key = 0;
+        char charAt;
+        for(int i = 0; i < word.length(); i++) {
+            charAt = word.charAt(i);
+            key += Character.getNumericValue(charAt)*2;
+            key += Character.getNumericValue(charAt)*i;
+        }
+        // multiply key by word length times firstPrime
+        int wordLength = word.length();
+        key *= 7*wordLength*wordLength;
 
+        // add numeric value of first char times word length times secondPrime
+        char firstLetter = word.charAt(0);
+        key += Character.getNumericValue(firstLetter)*wordLength
+                *11*13;
+        key += firstLetter+3;
+        return key;
+    }
 
 
     public static void createWordDatabase4() {
-        // buffered reader om wordlist op te slaan in een array (wordDatabase3)
-        long start = System.nanoTime();
-        BufferedReader br4 = null;
-
-        try {
-            String currentLine4;
-
-            // new buffered reader
-            br4 = new BufferedReader(new FileReader(new File("wordlist.txt")));
-
-            int x1 = 0;
-            int x2 = 0;
-            int x3 = 0;
-            int x4 = 0;
-            int x5 = 0;
-            int x6 = 0;
-            int x7 = 0;
-            int x8 = 0;
-            int x9 = 0;
-            int x10 = 0;
-            int x11 = 0;
-            int x12 = 0;
-            int x13 = 0;
-            int x14 = 0;
-            int x15 = 0;
-            int x16 = 0;
-            int x17 = 0;
-            int x18 = 0;
-            int x19 = 0;
-            int x20 = 0;
-            int x21 = 0;
-
-
-            // put the lines of text file (wordlist.txt) in an array at the index given by the key of the word
-            // which is the numeric value of the characters summed up
-            while ((currentLine4 = br4.readLine()) != null) {
-                x1 = Character.getNumericValue(currentLine4.charAt(0))-32;
-                x2 = Character.getNumericValue(currentLine4.charAt(1))-32;
-                x3 = Character.getNumericValue(currentLine4.charAt(2))-32;
-                x4 = Character.getNumericValue(currentLine4.charAt(3))-32;
-                x5 = Character.getNumericValue(currentLine4.charAt(4))-32;
-                x6 = Character.getNumericValue(currentLine4.charAt(5))-32;
-                x7 = Character.getNumericValue(currentLine4.charAt(6))-32;
-                x8 = Character.getNumericValue(currentLine4.charAt(7))-32;
-                x9 = Character.getNumericValue(currentLine4.charAt(8))-32;
-                x10 = Character.getNumericValue(currentLine4.charAt(9))-32;
-                x11 = Character.getNumericValue(currentLine4.charAt(10))-32;
-                x12 = Character.getNumericValue(currentLine4.charAt(11))-32;
-                x13 = Character.getNumericValue(currentLine4.charAt(12))-32;
-                x14 = Character.getNumericValue(currentLine4.charAt(13))-32;
-                x15 = Character.getNumericValue(currentLine4.charAt(14))-32;
-                x16 = Character.getNumericValue(currentLine4.charAt(15))-32;
-                x17 = Character.getNumericValue(currentLine4.charAt(16))-32;
-                x18 = Character.getNumericValue(currentLine4.charAt(17))-32;
-                x19 = Character.getNumericValue(currentLine4.charAt(18))-32;
-                x20 = Character.getNumericValue(currentLine4.charAt(19))-32;
-                x21 = Character.getNumericValue(currentLine4.charAt(20))-32;
-
-
-
-                wordDatabase4[x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11][x12][x13][x14][x15][x16][x17][x18][x19][x20][x21] = true;
-            }
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br4 != null) br4.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        long stop = System.nanoTime();
-        long runTime = stop - start;
-        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
-
+        // insert code here
     }
 
     public static void spellcheck4() {
