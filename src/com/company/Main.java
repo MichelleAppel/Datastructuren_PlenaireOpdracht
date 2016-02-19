@@ -9,13 +9,10 @@ public class Main {
     // declare new array with 638285 free spaces (lines amount of wordlist.txt)
 
     private static String[] wordDatabase = new String[638285];
-    private static String[] wordDatabase2 = new String[100000000];
+    private static String[] wordDatabase2 = new String[1000000];
 
     private static final int ARRAY_SIZE = 500;
     private static String[] wordDatabase3 = new String[ARRAY_SIZE];
-
-    private static String[] wordDatabase2 = new String[1000000];
-    private static String[] wordDatabase3 = new String[5000];
 
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
