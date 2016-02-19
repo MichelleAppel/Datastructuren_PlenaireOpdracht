@@ -19,7 +19,7 @@ public class Main {
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
     private static int totalCorrectWords3 = 0;
-    //private static int totalCorrectWords4 = 0;
+    private static int totalCorrectWords4 = 0;
     private static int wordsInFile = 0;
 
     public static void main(String[] args) {
@@ -368,6 +368,17 @@ public class Main {
 
             // new buffered reader
             br4 = new BufferedReader(new FileReader(new File("wordlist.txt")));
+
+            while ((currentLine4 = br4.readLine()) != null) {
+                int char_at;
+                int char_at1;
+                for(int i = 0; i < currentLine4.length(); i++){
+                    char_at = Character.getNumericValue(currentLine4.charAt(i)) - 64;
+
+                }
+
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -379,14 +390,49 @@ public class Main {
         }
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 3 " + runTime + " nanosecs to create the worddatabase. ("
+        System.out.println("It took method 4 " + runTime + " nanosecs to create the worddatabase. ("
                 + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
 
         // insert code here
     }
 
     public static void spellcheck4() {
-        // insert code here
+        long start = System.nanoTime();
+
+        // buffered reader voor de sample list
+        BufferedReader br42 = null;
+        try {
+            String currentLine42;
+            // new buffered reader (new File())
+            br42 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
+
+
+            int wordsInFile = 0;
+            int char_at;
+            int char_at1;
+            while ((currentLine42 = br42.readLine()) != null) {
+
+                // fillin
+
+                }
+
+            System.out.println("From " + wordsInFile + " words in the sample file, " +
+                    totalCorrectWords4 + " words were spelled correctly.");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br42 != null) br42.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        // measure stop time and substract start time to get execution time
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+        System.out.println("It took method 3 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." +
+                ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
     }
 
 
