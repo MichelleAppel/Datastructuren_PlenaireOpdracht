@@ -74,6 +74,7 @@ public class Main {
         File[] files = new File(DIR_NAME).listFiles();
         for(File file_name: files) {
 
+            System.out.println(file_name);
             // measure start time
             long start = System.nanoTime();
 
@@ -82,7 +83,7 @@ public class Main {
             try {
                 String currentLine2;
                 // new buffered reader (new File())
-                br12 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
+                br12 = new BufferedReader(new FileReader(file_name));
 
                 boolean wordFound;
                 int wordsInFile = 0;
