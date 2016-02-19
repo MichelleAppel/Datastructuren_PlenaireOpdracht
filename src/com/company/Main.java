@@ -31,7 +31,7 @@ public class Main {
     private static int totalCorrectWords = 0;
     private static int totalCorrectWords2 = 0;
     private static int totalCorrectWords3 = 0;
-    //private static int totalCorrectWords4 = 0;
+
     private static int wordsInFile = 0;
 
     public static void main(String[] args) {
@@ -102,38 +102,40 @@ public class Main {
         long start = System.nanoTime();
 
         // run through all the files in the sample map
-        for(File file_name: files) {
-                // buffered reader to loop through sample file
-                BufferedReader br12 = null;
-                try {
-                    String currentLine2;
-                    // new buffered reader
-                    br12 = new BufferedReader(new FileReader(file_name));
-
-                    // while wordFound is not true, run through the lines of the file
-                    // if word is found, increment totalCorrectWords
-                    boolean wordFound;
-                    while ((currentLine2 = br12.readLine()) != null) {
-                        int j = 0;
-                        wordFound = false;
-                        while (j < wordDatabase1.length && !wordFound) {
-                            if (currentLine2.equals(wordDatabase1[j])) {
-                                totalCorrectWords += 1;
-                                wordFound = true;
-                            }
-                            j++;
-                        }
-                        wordsInFile++;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
+        if (files != null) {
+            for(File file_name: files) {
+                    // buffered reader to loop through sample file
+                    BufferedReader br12 = null;
                     try {
-                        if (br12 != null) br12.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                        String currentLine2;
+                        // new buffered reader
+                        br12 = new BufferedReader(new FileReader(file_name));
+
+                        // while wordFound is not true, run through the lines of the file
+                        // if word is found, increment totalCorrectWords
+                        boolean wordFound;
+                        while ((currentLine2 = br12.readLine()) != null) {
+                            int j = 0;
+                            wordFound = false;
+                            while (j < wordDatabase1.length && !wordFound) {
+                                if (currentLine2.equals(wordDatabase1[j])) {
+                                    totalCorrectWords += 1;
+                                    wordFound = true;
+                                }
+                                j++;
+                            }
+                            wordsInFile++;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (br12 != null) br12.close();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
-                }
+            }
         }
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
@@ -203,7 +205,8 @@ public class Main {
         // for multiple files
         File[] files = new File(DIR_NAME).listFiles();
         long start = System.nanoTime();
-        for(File file_name: files) {
+        if (files != null) {
+            for (File file_name : files) {
                 System.out.println(file_name.length());
                 BufferedReader br22 = null;
                 try {
@@ -211,7 +214,7 @@ public class Main {
                     br22 = new BufferedReader(new FileReader(file_name));
                     boolean wordFound2;
                     wordsInFile = 0;
-                    int key = 0;
+                    int key;
                     while ((currentLine22 = br22.readLine()) != null) {
                         key = specialKeyGen(currentLine22);
                         wordFound2 = false;
@@ -246,6 +249,7 @@ public class Main {
                         ex.printStackTrace();
                     }
                 }
+            }
         }
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
@@ -303,32 +307,34 @@ public class Main {
         File[] files = new File(DIR_NAME).listFiles();
         long start = System.nanoTime();
 
-        for (File file_name : files) {
-                BufferedReader br32 = null;
-                try {
-                    String currentLine33;
-                    br32 = new BufferedReader(new FileReader(file_name));
-                    wordsInFile = 0;
-                    int key;
-                    while ((currentLine33 = br32.readLine()) != null) {
-                        key = keyGen(currentLine33);
-                        if (key >= 0 && wordDatabase3[key] != null) {
-                            if (wordDatabase3[key].contains("/" + currentLine33 + "/")) {
-                                totalCorrectWords3 += 1;
+        if (files != null) {
+            for (File file_name : files) {
+                    BufferedReader br32 = null;
+                    try {
+                        String currentLine33;
+                        br32 = new BufferedReader(new FileReader(file_name));
+                        wordsInFile = 0;
+                        int key;
+                        while ((currentLine33 = br32.readLine()) != null) {
+                            key = keyGen(currentLine33);
+                            if (key >= 0 && wordDatabase3[key] != null) {
+                                if (wordDatabase3[key].contains("/" + currentLine33 + "/")) {
+                                    totalCorrectWords3 += 1;
+                                }
+                                wordsInFile++;
                             }
-                            wordsInFile++;
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (br32 != null) br32.close();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
                     }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (br32 != null) br32.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
+            }
         }
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
