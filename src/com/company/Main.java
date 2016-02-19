@@ -3,14 +3,16 @@ import java.io.*;
 
 public class Main {
 
-
+    // used to loop through the sample map
     private static final String DIR_NAME = "src/samples";
 
     // declare new array with 638285 free spaces (lines amount of wordlist.txt)
+    private static String[] wordDatabase1 = new String[638285];
 
-    private static String[] wordDatabase = new String[638285];
+    // declare new array with 1 million free spaces (for hash map - open adressing)
     private static String[] wordDatabase2 = new String[1000000];
 
+    // declare new array with 500 free spaces (for hash map - collision chaining)
     private static final int ARRAY_SIZE = 500;
     private static String[] wordDatabase3 = new String[ARRAY_SIZE];
 
@@ -18,14 +20,14 @@ public class Main {
     private static int totalCorrectWords2 = 0;
     private static int totalCorrectWords3 = 0;
     //private static int totalCorrectWords4 = 0;
-
+    private static int wordsInFile = 0;
 
     public static void main(String[] args) {
-        createWordDatabase1();
-        spellcheck1();
+        //createWordDatabase1();
+        //spellcheck1();
 
-        //createWordDatabase2();
-        //spellcheck2();
+        createWordDatabase2();
+        spellcheck2();
 
         //createWordDatabase3();
         //spellcheck3();
@@ -35,8 +37,10 @@ public class Main {
     }
 
     public static void createWordDatabase1() {
+        // measure start time
         long start = System.nanoTime();
-        // buffered reader om wordlist op te slaan in een array (wordDatabase)
+
+        // buffered reader to be able to loop through wordlist.txt
         BufferedReader br11 = null;
 
         try {
@@ -45,65 +49,65 @@ public class Main {
             // new buffered reader
             br11 = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
-            // put all the lines (words) of wordlist.txt in the array
+            // put all the lines (words) of wordlist.txt in the array wordDatabase1
             int i = 0;
             while ((currentLine = br11.readLine()) != null) {
-                wordDatabase[i] = currentLine;
+                wordDatabase1[i] = currentLine;
                 i++;
             }
 
+            // when there is no line, catch exception
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
+                // close the file
                 if (br11 != null) br11.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
 
+        // measure stop time and substract start from stop to get runTime (& print it)
         long stop = System.nanoTime();
         long runTime = stop - start;
         System.out.println("It took method 1 " + runTime + " nanosecs to create the worddatabase. ("
                 + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
-
+        //System.out.println("FINAL TEST FOR METHOD 1 STARTS NOW!");
     }
 
     public static void spellcheck1() {
-        // for multiple files
+        // handling multiple files
         File[] files = new File(DIR_NAME).listFiles();
+
+        // measure start time
+        long start = System.nanoTime();
+
+        // run through all the files in the sample map
         for(File file_name: files) {
 
-            System.out.println(file_name);
-            // measure start time
-            long start = System.nanoTime();
-
-            // buffered reader voor de sample list
+            // buffered reader to loop through sample file
             BufferedReader br12 = null;
             try {
                 String currentLine2;
-                // new buffered reader (new File())
+                // new buffered reader
                 br12 = new BufferedReader(new FileReader(file_name));
 
+                // while wordFound is not true, run through the lines of the file
+                // if word is found, increment totalCorrectWords
                 boolean wordFound;
-                int wordsInFile = 0;
-                int i = 0;
                 while ((currentLine2 = br12.readLine()) != null) {
                     int j = 0;
                     wordFound = false;
-                    while (j < wordDatabase.length && !wordFound) {
-                        if (currentLine2.equals(wordDatabase[j])) {
+                    while (j < wordDatabase1.length && !wordFound) {
+                        if (currentLine2.equals(wordDatabase1[j])) {
                             totalCorrectWords += 1;
                             wordFound = true;
                         }
                         j++;
                     }
-                    i++;
-                    wordsInFile = i;
+                    wordsInFile++;
                 }
-                System.out.println("From " + wordsInFile + " words in the sample file, " +
-                        totalCorrectWords + " words were spelled correctly.");
-
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -113,29 +117,34 @@ public class Main {
                     ex.printStackTrace();
                 }
             }
-            // measure stop time and substract start time to get execution time
-            long stop = System.nanoTime();
-            long runTime = stop - start;
-            System.out.println("It took method 1 " + runTime + " nanosecs. (" + runTime / 1000000000 + "."
-                    + ((runTime / 10000000) - (runTime / 1000000000) * 100) + " seconds)");
         }
+
+        // measure stop time and substract start time to get execution time
+        long stop = System.nanoTime();
+        long runTime = stop - start;
+
+        // print runTime and totalCorrectWords
+        System.out.println("It took method 1 " + runTime + " nanosecs. (" + runTime / 1000000000 + "."
+                + ((runTime / 10000000) - (runTime / 1000000000) * 100) + " seconds)");
+        System.out.println(totalCorrectWords + "words were spelled correctly.");
+        //System.out.println("From " + wordsInFile + " words in the sample file, " +
+        //        totalCorrectWords + " words were spelled correctly.");
     }
 
     public static void createWordDatabase2() {
         long start = System.nanoTime();
-        // buffered reader om wordlist op te slaan in een hash table (wordDatabase)
-
         BufferedReader br21 = null;
 
         try {
             String currentLine21;
-
-            // new buffered reader
             br21 = new BufferedReader(new FileReader(new File("wordlist.txt")));
 
             // put the lines of text file (wordlist.txt) in a hashmap
             int key;
             while ((currentLine21 = br21.readLine()) != null) {
+                // key is generated with specialKeyGen
+                // word is placed in array with index key if that index = null,
+                // otherwise keep incrementing key to find an empty spot in array
                 key = specialKeyGen(currentLine21);
                 boolean wordIsPlaced = false;
                 while(!wordIsPlaced) {
@@ -146,13 +155,13 @@ public class Main {
                         } else {
                             key += 1;
                         }
+                        // if key > 1000000 (array length), substract 999999 from key
+                        // and keep incrementing until empty spot is found
                     } else {
                         key -= 999999;
                     }
                 }
-                //key = 0;
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -166,69 +175,65 @@ public class Main {
         long runTime = stop - start;
         System.out.println("It took method 2 " + runTime + " nanosecs to create the worddatabase. ("
                 + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)" );
-
+        System.out.println("FINAL TEST FOR METHOD 2 STARTS NOW!");
     }
 
     public static void spellcheck2() {
         // for multiple files
-        //File[] files = new File(DIR_NAME).listFiles();
-        //for(File file_name: files) {
-
-        // measure start time
+        File[] files = new File(DIR_NAME).listFiles();
         long start = System.nanoTime();
+        for(File file_name: files) {
+            if(!file_name.equals("src/samples/.DS_Store")) {
+                //System.out.println(file_name);
+                BufferedReader br22 = null;
+                try {
+                    String currentLine22;
+                    br22 = new BufferedReader(new FileReader(file_name));
+                    boolean wordFound2;
+                    wordsInFile = 0;
+                    int key = 0;
+                    while ((currentLine22 = br22.readLine()) != null) {
+                        key = specialKeyGen(currentLine22);
+                        wordFound2 = false;
 
-        // buffered reader voor de sample list
-        BufferedReader br22 = null;
-        try {
-            String currentLine22;
-            // new buffered reader (new File())
-            br22 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
-
-            boolean wordFound2;
-            int wordsInFile = 0;
-            int i = 0;
-            int key;
-            while ((currentLine22 = br22.readLine()) != null) {
-                key = specialKeyGen(currentLine22);
-                wordFound2 = false;
-
-                int currentKey = key;
-                while(!wordFound2 && key < currentKey+1000000) {
-                    if(key < 1000000) {
-                        if (wordDatabase2[key] == null) {
-                            break;
+                        int keyBound = key + 1000000;
+                        while (!wordFound2 && key < keyBound) {
+                            if (key >= 0 && key < 1000000) {
+                                if (wordDatabase2[key] == null) {
+                                    break;
+                                }
+                                if (wordDatabase2[key].equals(currentLine22)) {
+                                    totalCorrectWords2 += 1;
+                                    wordFound2 = true;
+                                } else {
+                                    key += 1;
+                                }
+                            } else {
+                                key -= 999999;
+                            }
                         }
-                        if (wordDatabase2[key].equals(currentLine22)) {
-                            totalCorrectWords2 += 1;
-                            wordFound2 = true;
-                        } else {
-                            key += 1;
-                        }
-                    } else {
-                        key -= 999999;
+                        wordsInFile++;
+                    }
+                    //System.out.println("From " + wordsInFile + " words in the sample file, " +
+                    //        totalCorrectWords2 + " words were spelled correctly.");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (br22 != null) br22.close();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
                     }
                 }
-                //key = 0;
-
-                i++;
-                wordsInFile = i;
-            }
-            System.out.println("From " + wordsInFile + " words in the sample file, " +
-                    totalCorrectWords2 + " words were spelled correctly.");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (br22 != null) br22.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
         }
         // measure stop time and substract start time to get execution time
         long stop = System.nanoTime();
         long runTime = stop - start;
-        System.out.println("It took method 2 " + runTime + " nanosecs. (" + runTime / 1000000000 + "." + ((runTime / 10000000)-(runTime / 1000000000)*100) +  " seconds)"  );
+        System.out.println("It took method 2 " + runTime + " nanosecs. ("
+                + runTime / 1000000000 + "." + ((runTime / 10000000) -
+                (runTime / 1000000000) * 100) + " seconds)");
     }
 
     public static void createWordDatabase3() {
@@ -289,7 +294,7 @@ public class Main {
             br32 = new BufferedReader(new FileReader("sample__in]Ot6R79.txt"));
 
 
-            int wordsInFile = 0;
+            wordsInFile = 0;
             int key;
             while ((currentLine33 = br32.readLine()) != null) {
 
